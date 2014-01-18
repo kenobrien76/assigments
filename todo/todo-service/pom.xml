@@ -18,10 +18,10 @@
 
 
   <dependencies>
-
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
+        <groupId>com.mtt.ken</groupId>
+        <artifactId>todo-persistence</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

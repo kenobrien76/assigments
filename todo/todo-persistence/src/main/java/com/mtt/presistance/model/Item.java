@@ -3,14 +3,19 @@ package com.mtt.presistance.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 
 
 
 @Entity
+@Table(name = "items")
 public class Item implements Serializable {
 	
 	private static final long serialVersionUID = 4658192093790613543L;
@@ -18,9 +23,12 @@ public class Item implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
+	@Column(name="description", nullable=false)
 	private String description;
-	private Date createdDate;
+	@Column(name="creation_time", nullable=false)
+	private Date creationTime;
+	@Column(name = "modification_time", nullable = false)
+    private Date modificationTime;
 	
 	public Item() {}
 	
@@ -31,21 +39,41 @@ public class Item implements Serializable {
 	public void setDescription(final String description) {
 		this.description = description;
 	}
-	public Date getCreatedDate() {
-		return createdDate;
+	
+	public Date getCreationTime() {
+		return creationTime;
 	}
-	public void setCreatedDate(final Date createdDate) {
-		this.createdDate = createdDate;
+
+	
+
+	public Date getModificationTime() {
+		return modificationTime;
 	}
+
+
 	public Long getId() {
 		return id;
 	}
+	
+	 @PreUpdate
+	 public void preUpdate() {
+	        modificationTime = new Date();
+	 }
+	   
+	 @PrePersist
+	 public void prePersist() {
+	        Date now = new Date();
+	        creationTime = now;
+	        modificationTime = now;
+	 }
+
 
 
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", description=" + description
-				+ ", createdDate=" + createdDate + "]";
+				+ ", creationTime=" + creationTime + ""
+						+ "	, modificationTime="+modificationTime+"]";
 	}
 	
 	
