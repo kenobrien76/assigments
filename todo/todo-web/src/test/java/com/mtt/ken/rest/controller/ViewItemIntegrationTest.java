@@ -71,10 +71,7 @@ public class ViewItemIntegrationTest {
 
 		when(itemService.requestItem(any(Long.class))).thenReturn(item);
 
-       /**
-        * {"id":null,"description":"My test item","creationTime":null,"modificationTime":null}
-        */
-	    this.mockMvc.perform(
+        this.mockMvc.perform(
 	            get("/rest/items/1")
 	                    .accept(MediaType.APPLICATION_JSON))
 	            .andExpect(jsonPath("$.description",is("My test item")));
