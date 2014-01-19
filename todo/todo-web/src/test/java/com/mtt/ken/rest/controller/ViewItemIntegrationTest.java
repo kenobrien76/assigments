@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.mtt.presistance.model.Item;
 import com.mtt.service.ItemService;
 import com.mtt.ken.rest.controller.ItemQueriesController;
 
@@ -36,10 +37,9 @@ public class ViewItemIntegrationTest {
 	}
 	
 	@Test
-	public void thatViewItemOrderUsesHttpNotFound() throws Exception {
+	public void thatViewItemHttpNotFound() throws Exception {
 
-	    when(itemService.requestItem(Long.valueOf(1))).thenReturn(null);
-
+	    when(itemService.requestItem(any(Long.class))).thenReturn(null);
 
 	    this.mockMvc.perform(
 	            get("/rest/items/1")
@@ -47,5 +47,26 @@ public class ViewItemIntegrationTest {
         .andDo(print())
         .andExpect(status().isNotFound());
 	  }
+	
+	
+	@Test
+	public void thatViewItemHttpOK() throws Exception {
+		
+		final Item  item = createItem();
+
+	    when(itemService.requestItem(any(Long.class))).thenReturn(item);
+
+	    this.mockMvc.perform(
+	            get("/rest/items/1")
+                .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isOk());
+	  }
+
+	private Item createItem() {
+		Item item = new Item();
+		item.setDescription("My test item");
+		return item;
+	}
 
 }
