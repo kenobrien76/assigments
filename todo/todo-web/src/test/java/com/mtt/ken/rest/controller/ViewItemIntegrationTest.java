@@ -24,7 +24,7 @@ public class ViewItemIntegrationTest {
 	
 	MockMvc mockMvc;
 	@InjectMocks
-	ItemQueriesController itemQueriesController;
+	ItemQueriesController itemQueriesController = new ItemQueriesController();
 	@Mock
 	ItemService itemService;
 	
@@ -40,11 +40,12 @@ public class ViewItemIntegrationTest {
 
 	    when(itemService.requestItem(Long.valueOf(1))).thenReturn(null);
 
+
 	    this.mockMvc.perform(
-	            get("/rest/items/{id}")
+	            get("/rest/items/1")
                 .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
-        .andExpect(status().isNotFound());;
+        .andExpect(status().isNotFound());
 	  }
 
 }

@@ -1,5 +1,7 @@
 package com.mtt.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -19,8 +21,19 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.save(item);
 	}
 
-	protected void setItemRepository(final ItemRepository itemRepository) {
-		this.itemRepository = itemRepository;
+	@Override
+	public List<Item> getAllItems() {
+		return itemRepository.findAll();
+	}
+
+	@Override
+	public Item requestItem(final Long id) {
+		return itemRepository.findOne(id);
+	}
+
+	@Override
+	public void deleteItem(final Long id) {
+		itemRepository.delete(id);
 	}
 	
 
