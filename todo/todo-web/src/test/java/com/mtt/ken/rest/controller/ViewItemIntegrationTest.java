@@ -1,5 +1,4 @@
 package com.mtt.ken.rest.controller;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.*;
 
 public class ViewItemIntegrationTest {
 	
@@ -61,6 +61,23 @@ public class ViewItemIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk());
+	  }
+	
+	
+	 @Test
+	  public void thatViewItemRendersCorrectly() throws Exception {
+		 
+		final Item  item = createItem();
+
+		when(itemService.requestItem(any(Long.class))).thenReturn(item);
+
+       /**
+        * {"id":null,"description":"My test item","creationTime":null,"modificationTime":null}
+        */
+	    this.mockMvc.perform(
+	            get("/rest/items/1")
+	                    .accept(MediaType.APPLICATION_JSON))
+	            .andExpect(jsonPath("$.description",is("My test item")));
 	  }
 
 	private Item createItem() {
