@@ -1,4 +1,7 @@
 package com.mtt.ken.rest.controller;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -52,9 +55,8 @@ public class ViewItemIntegrationTest {
 	@Test
 	public void thatViewItemHttpOK() throws Exception {
 		
-		final Item  item = createItem();
 
-	    when(itemService.requestItem(any(Long.class))).thenReturn(item);
+	    when(itemService.requestItem(any(Long.class))).thenReturn(createItem("My test item"));
 
 	    this.mockMvc.perform(
 	            get("/rest/items/1")
@@ -66,20 +68,42 @@ public class ViewItemIntegrationTest {
 	
 	 @Test
 	  public void thatViewItemRendersCorrectly() throws Exception {
-		 
-		final Item  item = createItem();
 
-		when(itemService.requestItem(any(Long.class))).thenReturn(item);
+		when(itemService.requestItem(any(Long.class))).thenReturn(createItem("My test item"));
 
         this.mockMvc.perform(
 	            get("/rest/items/1")
 	                    .accept(MediaType.APPLICATION_JSON))
 	            .andExpect(jsonPath("$.description",is("My test item")));
 	  }
+	 
+	 @Test
+	  public void thatViewAllItems() throws Exception {
+		 
+		 when(itemService.getAllItems()).thenReturn(createItems(new ArrayList<Item>()));
 
-	private Item createItem() {
+		 
+		  mockMvc.perform(get("/rest/items"))
+	                .andExpect(status().isOk())
+	                .andExpect(jsonPath("$", hasSize(2)))
+	                .andExpect(jsonPath("$[0].description", is("My test item 1")))
+	                .andExpect(jsonPath("$[1].description", is("My test item 2")));
+	    
+
+	  }
+
+	private List<Item> createItems(final List<Item> items) {
+		
+		items.add(createItem("My test item 1"));
+		items.add(createItem("My test item 2"));
+		
+		return items;
+	}
+
+	private Item createItem(final String description) {
 		Item item = new Item();
-		item.setDescription("My test item");
+		item.prePersist();
+		item.setDescription(description);
 		return item;
 	}
 
