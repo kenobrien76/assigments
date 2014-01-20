@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.mtt.presistance.model.Item;
 import com.mtt.service.ItemService;
+import com.mtt.service.exception.ItemNotFoundException;
 import com.mtt.ken.rest.controller.ItemQueriesController;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -42,7 +43,7 @@ public class ViewItemIntegrationTest {
 	@Test
 	public void thatViewItemHttpNotFound() throws Exception {
 
-	    when(itemService.requestItem(any(Long.class))).thenReturn(null);
+	    when(itemService.findById(any(Long.class))).thenThrow(new ItemNotFoundException());
 
 	    this.mockMvc.perform(
 	            get("/rest/items/1")
@@ -56,7 +57,7 @@ public class ViewItemIntegrationTest {
 	public void thatViewItemHttpOK() throws Exception {
 		
 
-	    when(itemService.requestItem(any(Long.class))).thenReturn(createItem("My test item"));
+	    when(itemService.findById(any(Long.class))).thenReturn(createItem("My test item"));
 
 	    this.mockMvc.perform(
 	            get("/rest/items/1")
@@ -69,7 +70,7 @@ public class ViewItemIntegrationTest {
 	 @Test
 	  public void thatViewItemRendersCorrectly() throws Exception {
 
-		when(itemService.requestItem(any(Long.class))).thenReturn(createItem("My test item"));
+		when(itemService.findById(any(Long.class))).thenReturn(createItem("My test item"));
 
         this.mockMvc.perform(
 	            get("/rest/items/1")
@@ -80,7 +81,7 @@ public class ViewItemIntegrationTest {
 	 @Test
 	  public void thatViewAllItems() throws Exception {
 		 
-		 when(itemService.getAllItems()).thenReturn(createItems(new ArrayList<Item>()));
+		 when(itemService.findAll()).thenReturn(createItems(new ArrayList<Item>()));
 
 		 
 		  mockMvc.perform(get("/rest/items"))

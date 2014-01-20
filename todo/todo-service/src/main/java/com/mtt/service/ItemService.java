@@ -3,6 +3,7 @@ package com.mtt.service;
 import java.util.List;
 
 import com.mtt.presistance.model.Item;
+import com.mtt.service.exception.ItemNotFoundException;
 
 public interface ItemService {
 	
@@ -11,27 +12,27 @@ public interface ItemService {
 	 * @param item
 	 * @return
 	 */
-	Item createItem(final Item item);
+	Item create(final Item item);
 	
 	/**
 	 * 
 	 * @return
 	 */
-	List<Item> getAllItems();
+	List<Item> findAll();
 	
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	Item requestItem(final Long id);
 	
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
-	void deleteItem(final Long id);
+	Item findById(final Long id) throws ItemNotFoundException;
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Item deleteById(final Long id)  throws ItemNotFoundException;
 
 }
