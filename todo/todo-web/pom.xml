@@ -12,17 +12,56 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>todo-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	<build>
-		<finalName>todo-web</finalName>
-	</build>
 
 	<properties>
 		<tomcat.version>7.0.50</tomcat.version>
 	</properties>
 
 
-	<dependencies>
 
+	<build>
+		<finalName>todo-web</finalName>
+		<plugins>
+	
+        
+         <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <dependencies>
+                <dependency>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+					<version>3.0.1</version>
+				</dependency>
+                </dependencies>
+                
+            </plugin>
+            
+             <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>8.1.0.RC2</version>
+                <configuration>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <webAppConfig>
+<!--                         <defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor> -->
+                    </webAppConfig>
+                     <connectors>
+       <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+          <port>8085</port>
+          <maxIdleTime>60000</maxIdleTime>
+       </connector>
+     </connectors>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+
+
+	<dependencies>
+		
 
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
@@ -31,11 +70,17 @@
 		</dependency>
 
 		<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>3.0.1</version>
-    <scope>provided</scope>
-</dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		
+		
+		
+		
+		
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
