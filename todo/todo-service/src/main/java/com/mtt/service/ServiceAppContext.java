@@ -4,10 +4,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.mtt.presistance.PresistanceAppContext;
+import com.mtt.presistance.repository.ItemRepository;
 
 
 @Configuration
 @Import(PresistanceAppContext.class)
 public class ServiceAppContext {
+	
+	
+	
 
 }
