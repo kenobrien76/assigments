@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>todo parent project</name>
+  <name>todo parent project test</name>
    <description>Spring Data 1 J:JPA Tutorial Part One</description>
   <url>http://maven.apache.org</url>
 
